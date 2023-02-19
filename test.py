@@ -16,7 +16,7 @@ import dns.rdataclass
 import dns.rdatatype
 import dns.query
 
-qname = dns.name.from_text("yahoo.com")
+qname = dns.name.from_text("www.cnn.com")
 query = dns.message.make_query(qname, dns.rdatatype.A)
 response = dns.query.udp(query, "198.41.0.4")
 
@@ -38,22 +38,34 @@ def dig_down(response):
         return dig_down(new_response)
     else:
         #have to check cName
-        print("omg")
         if response.authority:
             cName=str(response.authority[0]).split()[0]
             qName= dns.name.from_text(cName)
             que = dns.message.make_query(qName, dns.rdatatype.A)
             response = dns.query.udp(que, "198.41.0.4")
             return dig_down(response)
-    return ""
+    return "error"
 
 
 print("QUESTION SECTION:")
 print(response.question[0])
 print("Answer Section:")
-answer_list=dig_down(response)
-for ans in answer_list:
-    print(ans)
+answer=dig_down(response)[0]
+print(answer)
+if str(answer).split()[3]=="CNAME":
+    Cname=str(answer).split()[4]
+    qname = dns.name.from_text(Cname)
+    query = dns.message.make_query(qname, dns.rdatatype.A)
+    response = dns.query.udp(query,"198.41.0.4")
+    # Using Cname to dig
+    Cname_response = dig_down(response)[0]
+    print(Cname_response)
+
+
+
+
+  
+
 
 
 
