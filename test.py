@@ -16,50 +16,76 @@ import dns.rdataclass
 import dns.rdatatype
 import dns.query
 
-qname = dns.name.from_text("www.cnn.com")
+qname = dns.name.from_text("www.yahoo.com")
 query = dns.message.make_query(qname, dns.rdatatype.A)
-response = dns.query.udp(query, "198.41.0.4")
+response = dns.query.udp(query, "199.9.14.201")
 
-
-
-
-def dig_down(response):
-    # check for answer
+def dig_down(response,query_g):
+    ip=""
     if response.answer:
         return response.answer
-    # dig for answer
+
     if response.additional:
         for i in range(len(response.additional)):
             type_A= str(response.additional[i]).split()[3]
             if type_A == "A":
                 ip= str(response.additional[i]).split()[4]
                 break
-        new_response=dns.query.udp(query, ip)
-        return dig_down(new_response)
-    else:
-        #have to check cName
-        if response.authority:
-            cName=str(response.authority[0]).split()[0]
-            qName= dns.name.from_text(cName)
-            que = dns.message.make_query(qName, dns.rdatatype.A)
-            response = dns.query.udp(que, "198.41.0.4")
-            return dig_down(response)
-    return "error"
+        if ip=="":
+            return "Error"
+        new_response=dns.query.udp(query_g, ip)
+        return dig_down(new_response,query_g)
+
+    if response.authority:
+        ip=""
+        aName=str(response.authority[0]).split()[4]
+        qname_a = dns.name.from_text(aName)
+        query_a = dns.message.make_query(qname_a, dns.rdatatype.A)
+        response_a = dns.query.udp(query_a, "199.9.14.201")
+        print(response_a)
+        if response_a.additional:
+            for i in range(len(response_a.additional)):
+                type_A= str(response_a.additional[i]).split()[3]
+                if type_A == "A":
+                    ip= str(response_a.additional[i]).split()[4]
+                    break
+        if ip=="":
+            return "Error"
+        a_response=dns.query.udp(query_a, ip)
+        return dig_down(a_response,query_g)
+
+    return "Error"
+
 
 
 print("QUESTION SECTION:")
 print(response.question[0])
 print("Answer Section:")
-answer=dig_down(response)[0]
-print(answer)
-if str(answer).split()[3]=="CNAME":
+answer=dig_down(response,query)[0]
+if answer == "E":
+    print("ERROR")
+else:
+    print(answer)
+
+while answer != "E" and str(answer).split()[3]=="CNAME":
     Cname=str(answer).split()[4]
-    qname = dns.name.from_text(Cname)
-    query = dns.message.make_query(qname, dns.rdatatype.A)
-    response = dns.query.udp(query,"198.41.0.4")
+    qname_c = dns.name.from_text(Cname)
+    query_c = dns.message.make_query(qname_c, dns.rdatatype.A)
+    response_c = dns.query.udp(query_c,"199.9.14.201")
     # Using Cname to dig
-    Cname_response = dig_down(response)[0]
-    print(Cname_response)
+    answer= dig_down(response_c,query_c)[0]
+    if answer == "E":
+        print("ERROR")
+    else:
+        print(answer)
+
+  
+
+
+
+
+
+
 
 
 
