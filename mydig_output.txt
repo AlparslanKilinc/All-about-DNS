@@ -1,6 +1,6 @@
 QUESTION SECTION:
-google.co.jp. IN A
+sda.dsdf.frg. IN A
 Answer Section:
-google.co.jp. 300 IN A 142.251.40.131
-Query Time: 0.44737982749938965
-When: 2023-02-20 15:14:46.707144
+ERROR
+Query Time: 0.09293818473815918
+When: 2023-02-20 15:31:02.553434

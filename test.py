@@ -22,6 +22,7 @@ from datetime import datetime
 file1 = open("mydig_output.txt","w")
 website=input("Enter Domain:")
 start_time = time.time()
+
 initial_qname = dns.name.from_text(website)
 initial_query = dns.message.make_query(initial_qname, dns.rdatatype.A)
 initial_response = dns.query.udp(initial_query, "199.9.14.201")
@@ -46,6 +47,8 @@ def dig_down(response,query):
 
     if response.authority:
         ip=""
+        if str(response.authority[0]).split()[3] == "SOA":
+            return "Error"
         aName=str(response.authority[0]).split()[4]
         qname_a = dns.name.from_text(aName)
         query_a = dns.message.make_query(qname_a, dns.rdatatype.A)
