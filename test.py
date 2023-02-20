@@ -15,8 +15,14 @@ import dns.message
 import dns.rdataclass
 import dns.rdatatype
 import dns.query
+import time
+from datetime import datetime
 
-initial_qname = dns.name.from_text("amazon.com")
+
+file1 = open("mydig_output.txt","w")
+website=input("Enter Domain:")
+start_time = time.time()
+initial_qname = dns.name.from_text(website)
 initial_query = dns.message.make_query(initial_qname, dns.rdatatype.A)
 initial_response = dns.query.udp(initial_query, "199.9.14.201")
 
@@ -51,14 +57,14 @@ def dig_down(response,query):
 
 
 
-print("QUESTION SECTION:")
-print(initial_response.question[0])
-print("Answer Section:")
+print("QUESTION SECTION:",file=file1)
+print(initial_response.question[0],file=file1)
+print("Answer Section:",file=file1)
 answer=dig_down(initial_response,initial_query)[0]
 if answer == "E":
-    print("ERROR")
+    print("ERROR",file=file1)
 else:
-    print(answer)
+    print(answer,file=file1)
 
 while answer != "E" and str(answer).split()[3]=="CNAME":
     Cname=str(answer).split()[4]
@@ -68,10 +74,11 @@ while answer != "E" and str(answer).split()[3]=="CNAME":
     # Using Cname to dig
     answer= dig_down(response_c,query_c)[0]
     if answer == "E":
-        print("ERROR")
+        print("ERROR",file=file1)
     else:
-        print(answer)
-
+        print(answer,file=file1)
+print("Query Time:",(time.time()-start_time) ,file=file1)
+print("When:",datetime.now(),file=file1)
   
 
 

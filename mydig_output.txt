@@ -1,0 +1,8 @@
+QUESTION SECTION:
+amazon.com. IN A
+Answer Section:
+amazon.com. 900 IN A 52.94.236.248
+amazon.com. 900 IN A 54.239.28.85
+amazon.com. 900 IN A 205.251.242.103
+Query Time: 0.24343514442443848
+When: 2023-02-20 13:46:12.391625
