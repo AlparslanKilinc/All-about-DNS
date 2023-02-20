@@ -8,7 +8,7 @@
 # contact top-level- domain
 # authoritative name server
 
-# Resolve the "A" record for the query.
+# Resolve the "A" record for the query.w
 
 # Return Errors
 import dns.message
@@ -25,6 +25,8 @@ start_time = time.time()
 initial_qname = dns.name.from_text(website)
 initial_query = dns.message.make_query(initial_qname, dns.rdatatype.A)
 initial_response = dns.query.udp(initial_query, "199.9.14.201")
+
+
 
 def dig_down(response,query):
     ip=""
@@ -51,8 +53,10 @@ def dig_down(response,query):
         answer=dig_down(response_a,query_a)
         ip=str(answer[0]).split()[4]
         new_resp=dns.query.udp(query, ip)
+        if new_resp.answer:
+            if str(new_resp.answer[0]).split()[3] == "A":
+                return new_resp.answer
         return dig_down(new_resp,query)
-
     return "Error"
 
 
