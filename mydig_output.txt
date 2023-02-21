@@ -1,13 +1,13 @@
-INPUT: www.amazon.com
+INPUT: www.facebook.com
  
 QUESTION SECTION:
-www.amazon.com. IN A
+www.facebook.com. IN A
 
 Answer Section:
-www.amazon.com 60 IN A 18.238.3.186
+www.facebook.com 60 IN A 31.13.71.36
 
 More Information:
-d3ag4hukkh62yn.cloudfront.net. 60 IN A 18.238.3.186
+star-mini.c10r.facebook.com. 60 IN A 31.13.71.36
 
-Query Time: 0.8181607723236084
-When: 2023-02-21 11:01:12.032208
+Query Time: 0.15838146209716797
+When: 2023-02-21 15:14:50.865162
