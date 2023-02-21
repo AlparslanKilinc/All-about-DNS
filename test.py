@@ -18,9 +18,12 @@ import dns.query
 import time
 from datetime import datetime
 
+# change name output to initial name 
 
 file1 = open("mydig_output.txt","w")
 website=input("Enter Domain:")
+print("INPUT:",website,file=file1)
+print(" ",file=file1)
 start_time = time.time()
 
 initial_qname = dns.name.from_text(website)
@@ -47,12 +50,12 @@ def dig_down(response,query):
 
     if response.authority:
         ip=""
-        if str(response.authority[0]).split()[3] == "SOA":
-            return "Error"
         aName=str(response.authority[0]).split()[4]
         qname_a = dns.name.from_text(aName)
         query_a = dns.message.make_query(qname_a, dns.rdatatype.A)
         response_a = dns.query.udp(query_a, "199.9.14.201")
+        if response_a.answer:
+            return response_a.answer
         answer=dig_down(response_a,query_a)
         ip=str(answer[0]).split()[4]
         new_resp=dns.query.udp(query, ip)

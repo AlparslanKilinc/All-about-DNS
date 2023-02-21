@@ -1,6 +1,8 @@
+INPUT: sda.asd
+ 
 QUESTION SECTION:
-sda.dsdf.frg. IN A
+sda.asd. IN A
 Answer Section:
-ERROR
-Query Time: 0.09293818473815918
-When: 2023-02-20 15:31:02.553434
+a.root-servers.net. 3600000 IN A 198.41.0.4
+Query Time: 0.05611419677734375
+When: 2023-02-20 20:02:22.629563
