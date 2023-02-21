@@ -1,8 +1,13 @@
-INPUT: sda.asd
+INPUT: www.amazon.com
  
 QUESTION SECTION:
-sda.asd. IN A
+www.amazon.com. IN A
+
 Answer Section:
-a.root-servers.net. 3600000 IN A 198.41.0.4
-Query Time: 0.05611419677734375
-When: 2023-02-20 20:02:22.629563
+www.amazon.com 60 IN A 18.238.3.186
+
+More Information:
+d3ag4hukkh62yn.cloudfront.net. 60 IN A 18.238.3.186
+
+Query Time: 0.8181607723236084
+When: 2023-02-21 11:01:12.032208
